@@ -29,7 +29,7 @@ addBtn.addEventListener('click', () => {
 
 notesList.addEventListener('click', (e) => {
     if(e.target.classList.contains("deleteBtn")) {
-        const id = parseInt(e.target.dataset.id)
+        const id = Number(e.target.dataset.id)
 
         notes = notes.filter(note => note.id !== id);
 
@@ -48,7 +48,7 @@ function renderNotes() {
         li.innerHTML = `
             <div class="note-title">${note.title}</div>
             <div>${note.content}</div>
-            <button class="delete-btn" data-id="${note.id}">Delete</button>
+            <button class="deleteBtn" data-id="${note.id}">Delete</button>
         `;
 
         notesList.appendChild(li);
