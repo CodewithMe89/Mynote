@@ -28,16 +28,16 @@ addBtn.addEventListener('click', () => {
 });
 
 notesList.addEventListener('click', (e) => {
-    if(e.target.classList.contains("deleteBtn")) {
-        const id = Number(e.target.dataset.id)
+    if (e.target.classList.contains("deleteBtn")) {
+        const id = Number(e.target.dataset.id);
 
         notes = notes.filter(note => note.id !== id);
 
-        localStorage.setItem('notes', JSON.stringify(notes))
+        localStorage.setItem('notes', JSON.stringify(notes));
 
-        renderNotes()
+        renderNotes();
     }
-})
+});
 
 function renderNotes() {
     notesList.innerHTML = "";
