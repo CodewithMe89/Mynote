@@ -1,4 +1,5 @@
 let notes = JSON.parse(localStorage.getItem("notes")) || [];
+let editId = null
 
 const addBtn = document.querySelector('#addBtn');
 const titleInput = document.querySelector('#titleNote');
@@ -13,11 +14,22 @@ addBtn.addEventListener('click', () => {
 
     if (title === "" || content === "") return;
 
-    notes.push({
-        id: Date.now(),
-        title,
-        content
-    });
+    if (editId) {
+        notes = notes.map(note =>
+            note.id === editId
+                ? { ...note, title, content }
+                : note
+        );
+        editId = null;
+        addBtn.textContent = "Add Note";
+    }
+    else {
+        notes.push({
+            id: Date.now(),
+            title,
+            content
+        });
+    }
 
     localStorage.setItem('notes', JSON.stringify(notes));
 
@@ -39,6 +51,20 @@ notesList.addEventListener('click', (e) => {
     }
 });
 
+notesList.addEventListener('click', (e) => {
+    if (e.target.classList.contains("editBtn")) {
+        const id = Number(e.target.dataset.id);
+
+        const note = notes.find(n => n.id === id)
+
+        titleInput.value = note.title;
+        contentInput.value = note.content
+
+        editId = id;
+        addBtn.textContent = "Update Note"
+    }
+})
+
 function renderNotes() {
     notesList.innerHTML = "";
 
@@ -48,6 +74,7 @@ function renderNotes() {
         li.innerHTML = `
             <div class="note-title">${note.title}</div>
             <div>${note.content}</div>
+            <button class="editBtn" data-id="${note.id}">Edit</button>
             <button class="deleteBtn" data-id="${note.id}">Delete</button>
         `;
 
