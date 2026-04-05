@@ -27,6 +27,18 @@ addBtn.addEventListener('click', () => {
     renderNotes();
 });
 
+notesList.addEventListener('click', (e) => {
+    if(e.target.classList.contains("deleteBtn")) {
+        const id = parseInt(e.target.dataset.id)
+
+        notes = notes.filter(note => note.id !== id);
+
+        localStorage.setItem('notes', JSON.stringify(notes))
+
+        renderNotes()
+    }
+})
+
 function renderNotes() {
     notesList.innerHTML = "";
 
@@ -36,6 +48,7 @@ function renderNotes() {
         li.innerHTML = `
             <div class="note-title">${note.title}</div>
             <div>${note.content}</div>
+            <button class="delete-btn" data-id="${note.id}">Delete</button>
         `;
 
         notesList.appendChild(li);
