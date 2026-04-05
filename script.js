@@ -5,6 +5,7 @@ const addBtn = document.querySelector('#addBtn');
 const titleInput = document.querySelector('#titleNote');
 const contentInput = document.querySelector('#contentNote');
 const notesList = document.querySelector('#notesList');
+const searchInput = document.querySelector('#searchBox')
 
 renderNotes();
 
@@ -65,10 +66,20 @@ notesList.addEventListener('click', (e) => {
     }
 })
 
+searchInput.addEventListener('input',() =>{
+    renderNotes();
+})
+
 function renderNotes() {
     notesList.innerHTML = "";
 
-    notes.forEach(note => {
+    const searchValue = searchInput.value.toLowerCase();
+
+    const filteredNotes = notes.filter(note => 
+        note.title.toLowerCase().includes(searchValue)
+    )
+
+    filteredNotes.forEach(note => {
         const li = document.createElement("li");
 
         li.innerHTML = `
